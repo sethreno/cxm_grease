@@ -30,8 +30,6 @@ function loadComplete(){
 	createMenuDiv();
 	createTicketDiv(id);
 	createNoteDivs();
-	createNewNoteButton();
-	createToggleDetailButton();
 }
 
 function createMenuDiv(){

@@ -36,7 +36,7 @@ function loadComplete(){
 
 function createMenuDiv(){
 	var $menu = $('<div style="padding: 5px; margin: 10px; background-color: #2e4272; color: white;" />');
-	var $toggle = createButton("", "view in cxm ui");
+	var $toggle = createButton("", "toggle cxm ui");
 	$toggle.click(function(){
 		$('.appLayout').toggle();
 	});
@@ -104,10 +104,9 @@ function createButton(onclick, text){
 }
 
 function createAddNoteButton(){
-	var $button = createButton('ticketLineItemBtn_function()', 'add note');
+	var $button = createButton("alert('This only works if a task exists on the ticket.')", 'add note');
 	var taskId = $(".field-TaskId:last").text();
 	if (taskId !== undefined){
-		// a task already exists use that one
 		$edit = createButton("clickEditFormtasksViewGrid(" + taskId + ",'view')", "add note");
 	}
 	return $edit;

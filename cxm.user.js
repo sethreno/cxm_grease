@@ -72,6 +72,13 @@ function createNoteDivs(){
 		var note = { text: $(this).text() };
 		notes.push(note);
 	});
+	$('.field-ttresolution').each(function(index) {
+		var note = notes[index];
+		if (note.text.length > 0 && $(this).text().length > 0){
+			note.text += "\n";
+		}
+		note.text += $(this).text();
+	});
 	$('.field-ttworkby').each(function(index) {
 		notes[index].user = $(this).text();
 	});

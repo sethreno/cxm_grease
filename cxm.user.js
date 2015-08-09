@@ -59,7 +59,7 @@ function createTicketDiv(id){
 	var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
 	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location);
 	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody");
-	$iframeContent.css('padding', '5px');
+	$iframeContent.css('padding', '10px');
 	$iframeContent.attr('contenteditable','false');
 	$description.append($header);
 	$description.append($iframeContent);

@@ -57,10 +57,24 @@ function createTicketDiv(id){
 
 	var $description = $('<div style="margin: 10px; border: 1px solid;" />');
 	var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
-	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location);
+	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location + " :: ");
 	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody");
 	$iframeContent.css('padding', '10px');
 	$iframeContent.attr('contenteditable','false');
+
+	var $edit = createButton("", "edit");
+	$edit.click(function(){
+		var value = $iframeContent.attr('contenteditable');
+		if (value == 'false') {
+			$iframeContent.attr('contenteditable','true');
+			$edit.html("cancel edit");
+		} else {
+			$iframeContent.attr('contenteditable','false');
+			$edit.html("edit");
+		}
+	});
+	$header.append($edit);
+
 	$description.append($header);
 	$description.append($iframeContent);
 	$div.append($description);

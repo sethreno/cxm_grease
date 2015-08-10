@@ -8,12 +8,8 @@
 // @grant       none
 // ==/UserScript==
 
-var timer = setInterval(loadComplete, 1000);
+var timer = setInterval(loadComplete, 100);
 var $div = $('<div style="padding: 10px; font-family: consolas; font-size: 140%;" />').prependTo('body');
-
-$(function(){
-	$('.appLayout').hide();
-});
 
 function loadComplete(){
 	if ($('#loadingOverlay').is(':visible')) return; // sill loading
@@ -25,6 +21,7 @@ function loadComplete(){
 		$('.appLayout').show();
 		return;
 	}
+	$('.appLayout').hide();
 
 	createMenuDiv();
 	createTicketDiv(id);

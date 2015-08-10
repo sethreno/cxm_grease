@@ -4,7 +4,7 @@
 // @include     http://cxm.rosnet.com:8080/CXM/*
 // @include     http://192.168.0.68:8080/CXM/*
 // @description Make CXM UI bearable.
-// @version     1
+// @version     2
 // @grant       none
 // ==/UserScript==
 

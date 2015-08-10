@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Simplify CXM
 // @namespace   sethreno
-// @include     http://cxm.rosnet.com:8080/CXM/entity/getEntityDetails*
-// @include     http://192.168.0.68:8080/CXM/entity/getEntityDetails*
+// @include     http://cxm.rosnet.com:8080/CXM/*
+// @include     http://192.168.0.68:8080/CXM/*
 // @description Make CXM UI bearable.
 // @version     1
 // @grant       none

@@ -44,7 +44,7 @@ function createMenuDiv(){
 	$menu.append(" :: ");
 	$menu.append(createAddNoteButton());
 	$menu.append(" :: ");
-	$menu.append(createButton("alert('not implemented yet')", "forward"));
+	$menu.append(createButton("alert('not implemented yet')", "assign"));
 	$div.append($menu);
 }
 

@@ -37,8 +37,14 @@ function createMenuDiv(){
 	$menu.append($toggle);
 	$menu.append(" :: ");
 	$menu.append(createButton("refreshEntity()", "refresh"));
+
 	$menu.append(" :: ");
-	$menu.append(createAddNoteButton());
+	$addNote = createButton("", "add note");
+	$addNote.click(function(){
+		$("span[widgetid='ticketLineItemBtn']").find("input").click();
+	});
+	$menu.append($addNote);
+
 	$menu.append(" :: ");
 	$menu.append(createButton("alert('not implemented yet')", "assign"));
 	// simulate save button click, needed for assign feature
@@ -105,14 +111,5 @@ function createNoteDivs(){
 
 function createButton(onclick, text){
 	return $("<a href=\"#\" onclick=\"" + onclick + "\" style='color: white;'>" + text + "</a>");
-}
-
-function createAddNoteButton(){
-	var $button = createButton("alert('This only works if a task exists on the ticket.')", 'add note');
-	var taskId = $(".field-TaskId:last").text();
-	if (taskId !== undefined){
-		$edit = createButton("clickEditFormtasksViewGrid(" + taskId + ",'view')", "add note");
-	}
-	return $edit;
 }
 

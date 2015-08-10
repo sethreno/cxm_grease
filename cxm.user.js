@@ -6,7 +6,6 @@
 // @description Make CXM UI bearable.
 // @version     1
 // @grant       none
-// @require		https://code.jquery.com/jquery-2.1.4.min.js
 // ==/UserScript==
 
 var timer = setInterval(loadComplete, 1000);

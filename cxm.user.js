@@ -55,16 +55,16 @@ function createTicketDiv(id){
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
 
-	var $description = $('<div style="margin: 10px; border: 1px solid;" />');
+	var $ticketDiv = $('<div style="margin: 10px; border: 1px solid;" />');
 	var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
 	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location);
 	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody").clone();
 	$iframeContent.css('padding', '10px');
 	$iframeContent.attr('contenteditable','false');
 
-	$description.append($header);
-	$description.append($iframeContent);
-	$div.append($description);
+	$ticketDiv.append($header);
+	$ticketDiv.append($iframeContent);
+	$div.append($ticketDiv);
 }
 
 function createNoteDivs(){

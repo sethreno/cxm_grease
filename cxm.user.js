@@ -45,6 +45,8 @@ function createMenuDiv(){
 	$menu.append(createAddNoteButton());
 	$menu.append(" :: ");
 	$menu.append(createButton("alert('not implemented yet')", "assign"));
+	// simulate save button click, needed for assign feature
+	//$("span[widgetid='dijit_form_Button_1']").find("input").click();
 	$div.append($menu);
 }
 

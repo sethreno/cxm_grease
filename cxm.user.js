@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 var timer = setInterval(loadComplete, 100);
-var $div = $('<div id="cxm_grease_container" />').prependTo('body');
+var $div = $('<div style="padding: 10px; font-family: consolas; font-size: 140%;" />').prependTo('body');
 
 function loadComplete(){
 	if ($('#loadingOverlay').is(':visible')) return; // sill loading
@@ -23,15 +23,13 @@ function loadComplete(){
 	}
 	$('.appLayout').hide();
 
-	$('head').append("<link rel='stylesheet' href='https://raw.githubusercontent.com/sethreno/cxm_grease/master/cxm.user.css' type='text/css' >");
-
 	createMenuDiv();
 	createTicketDiv(id);
 	createNoteDivs();
 }
 
 function createMenuDiv(){
-	var $menu = $('<div id="cxm_grease_menu" />');
+	var $menu = $('<div style="padding: 5px; margin: 10px; background-color: #2e4272; color: white;" />');
 	var $toggle = createButton("", "toggle cxm ui");
 	$toggle.click(function(){
 		$('.appLayout').toggle();
@@ -61,19 +59,15 @@ function createTicketDiv(id){
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
 
-	var $ticketDiv = $('<div class="cxm_grease_ticket" />');
-	var $header = $('<h3/>');
+	var $ticketDiv = $('<div style="margin: 10px; border: 1px solid;" />');
+	var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
 	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location);
-	$ticketDiv.append($header);
-
-	var $p = $("<p />");
-	$ticketDiv.append($p);
-
 	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody").clone();
-	$iframeContent.id = "dijitEditorBodyClone";
+	$iframeContent.css('padding', '10px');
 	$iframeContent.attr('contenteditable','false');
-	$p.append($iframeContent);
 
+	$ticketDiv.append($header);
+	$ticketDiv.append($iframeContent);
 	$div.append($ticketDiv);
 }
 
@@ -103,10 +97,10 @@ function createNoteDivs(){
 		notes[index].id = $(this).text();
 	});
 	for(var i=1; i<notes.length; i++){
-		var $note = $('<div class="cxm_grease_note" />');
-		var $header = $('<h3/>');
-		var $text = $('<p/>');
-		var edit = "<a href=\"#\" onclick=\"clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')\" '>edit</a>";
+		var $note = $('<div style="margin: 10px; border: 1px solid;" />');
+		var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
+		var $text = $('<div style="padding: 10px;" />');
+		var edit = "<a href=\"#\" onclick=\"clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')\" style='color: white;'>edit</a>";
 		$header.html(notes[i].date + ' :: ' + notes[i].user + " :: " + edit);
 		$text.html(notes[i].text.replace(/\n/g, "<br />"));
 		$note.append($header);
@@ -116,6 +110,6 @@ function createNoteDivs(){
 }
 
 function createButton(onclick, text){
-	return $("<a href=\"#\" onclick=\"" + onclick + "\">" + text + "</a>");
+	return $("<a href=\"#\" onclick=\"" + onclick + "\" style='color: white;'>" + text + "</a>");
 }
 

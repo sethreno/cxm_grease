@@ -5,11 +5,13 @@
 // @include     http://192.168.0.68:8080/CXM/*
 // @description Make CXM UI bearable.
 // @version     2
-// @grant       none
+// @resource        css  cxm.user.css
+// @grant           GM_addStyle
+// @grant           GM_getResourceText
 // ==/UserScript==
 
 var timer = setInterval(loadComplete, 100);
-var $div = $('<div style="padding: 10px; font-family: consolas; font-size: 140%;" />').prependTo('body');
+var $div = $('<div id="cxm_grease_container" />').prependTo('body');
 
 function loadComplete(){
 	if ($('#loadingOverlay').is(':visible')) return; // sill loading
@@ -23,13 +25,15 @@ function loadComplete(){
 	}
 	$('.appLayout').hide();
 
+	GM_addStyle(GM_getResourceText("css"));
+
 	createMenuDiv();
 	createTicketDiv(id);
 	createNoteDivs();
 }
 
 function createMenuDiv(){
-	var $menu = $('<div style="padding: 5px; margin: 10px; background-color: #2e4272; color: white;" />');
+	var $menu = $('<div id="cxm_grease_menu" />');
 	var $toggle = createButton("", "toggle cxm ui");
 	$toggle.click(function(){
 		$('.appLayout').toggle();
@@ -59,15 +63,19 @@ function createTicketDiv(id){
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
 
-	var $ticketDiv = $('<div style="margin: 10px; border: 1px solid;" />');
-	var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
+	var $ticketDiv = $('<div class="cxm_grease_ticket" />');
+	var $header = $('<h3/>');
 	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location);
-	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody").clone();
-	$iframeContent.css('padding', '10px');
-	$iframeContent.attr('contenteditable','false');
-
 	$ticketDiv.append($header);
-	$ticketDiv.append($iframeContent);
+
+	var $p = $("<p />");
+	$ticketDiv.append($p);
+
+	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody").clone();
+	$iframeContent.id = "dijitEditorBodyClone";
+	$iframeContent.attr('contenteditable','false');
+	$p.append($iframeContent);
+
 	$div.append($ticketDiv);
 }
 
@@ -97,10 +105,10 @@ function createNoteDivs(){
 		notes[index].id = $(this).text();
 	});
 	for(var i=1; i<notes.length; i++){
-		var $note = $('<div style="margin: 10px; border: 1px solid;" />');
-		var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
-		var $text = $('<div style="padding: 10px;" />');
-		var edit = "<a href=\"#\" onclick=\"clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')\" style='color: white;'>edit</a>";
+		var $note = $('<div class="cxm_grease_note" />');
+		var $header = $('<h3/>');
+		var $text = $('<p/>');
+		var edit = "<a href=\"#\" onclick=\"clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')\" '>edit</a>";
 		$header.html(notes[i].date + ' :: ' + notes[i].user + " :: " + edit);
 		$text.html(notes[i].text.replace(/\n/g, "<br />"));
 		$note.append($header);
@@ -110,6 +118,6 @@ function createNoteDivs(){
 }
 
 function createButton(onclick, text){
-	return $("<a href=\"#\" onclick=\"" + onclick + "\" style='color: white;'>" + text + "</a>");
+	return $("<a href=\"#\" onclick=\"" + onclick + "\">" + text + "</a>");
 }
 

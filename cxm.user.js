@@ -5,9 +5,7 @@
 // @include     http://192.168.0.68:8080/CXM/*
 // @description Make CXM UI bearable.
 // @version     2
-// @resource        css  cxm.user.css
-// @grant           GM_addStyle
-// @grant           GM_getResourceText
+// @grant       none
 // ==/UserScript==
 
 var timer = setInterval(loadComplete, 100);
@@ -25,7 +23,7 @@ function loadComplete(){
 	}
 	$('.appLayout').hide();
 
-	GM_addStyle(GM_getResourceText("css"));
+	$('head').append("<link rel='stylesheet' href='https://raw.githubusercontent.com/sethreno/cxm_grease/master/cxm.user.css' type='text/css' >");
 
 	createMenuDiv();
 	createTicketDiv(id);

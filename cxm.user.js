@@ -8,8 +8,49 @@
 // @grant       none
 // ==/UserScript==
 
+function hackForStringLiteral(f) {
+  return f.toString().
+      replace(/^[^\/]+\/\*!?/, '').
+      replace(/\*\/[^\/]+$/, '');
+}
+
+var css = hackForStringLiteral(function() {/*!
+#cxm_grease {
+	padding: 10px;
+	font-family: consolas;
+	font-size: 140%;
+}
+
+#cxm_grease .menu {
+	padding: 5px;
+	margin: 10px;
+	background-color: #2e4272;
+	color: white;
+}
+
+#cxm_grease .ticket, #cxm_grease .note {
+	margin: 10px;
+	border: 1px solid;
+}
+
+#cxm_grease .ticket h3, #cxm_grease .note h3 {
+	padding: 5px;
+	background-color: #2e4272;
+	color: white;
+}
+
+#cxm_grease .ticket p, #cxm_grease .note p {
+	padding: 5px;
+}
+
+#cxm_grease .menu a, #cxm_grease .ticket h3 a, #cxm_grease .note h3 a {
+	color: white;
+}
+*/});
+$('<style type="text/css">' + css + '</style>').appendTo('head');
+
 var timer = setInterval(loadComplete, 100);
-var $div = $('<div style="padding: 10px; font-family: consolas; font-size: 140%;" />').prependTo('body');
+var $div = $('<div id="cxm_grease" />').prependTo('body');
 
 function loadComplete(){
 	if ($('#loadingOverlay').is(':visible')) return; // sill loading
@@ -29,7 +70,7 @@ function loadComplete(){
 }
 
 function createMenuDiv(){
-	var $menu = $('<div style="padding: 5px; margin: 10px; background-color: #2e4272; color: white;" />');
+	var $menu = $('<div class="menu" />');
 	var $toggle = createButton("", "toggle cxm ui");
 	$toggle.click(function(){
 		$('.appLayout').toggle();
@@ -59,8 +100,8 @@ function createTicketDiv(id){
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
 
-	var $ticketDiv = $('<div style="margin: 10px; border: 1px solid;" />');
-	var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
+	var $ticketDiv = $('<div class="ticket" />');
+	var $header = $('<h3/>');
 	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location);
 	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody").clone();
 	$iframeContent.css('padding', '10px');
@@ -97,10 +138,10 @@ function createNoteDivs(){
 		notes[index].id = $(this).text();
 	});
 	for(var i=1; i<notes.length; i++){
-		var $note = $('<div style="margin: 10px; border: 1px solid;" />');
-		var $header = $('<div style="padding: 5px; background-color: #2e4272; color: white;" />');
-		var $text = $('<div style="padding: 10px;" />');
-		var edit = "<a href=\"#\" onclick=\"clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')\" style='color: white;'>edit</a>";
+		var $note = $('<div class="note" />');
+		var $header = $('<h3/>');
+		var $text = $('<p/>');
+		var edit = "<a href=\"#\" onclick=\"clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')\">edit</a>";
 		$header.html(notes[i].date + ' :: ' + notes[i].user + " :: " + edit);
 		$text.html(notes[i].text.replace(/\n/g, "<br />"));
 		$note.append($header);
@@ -110,6 +151,6 @@ function createNoteDivs(){
 }
 
 function createButton(onclick, text){
-	return $("<a href=\"#\" onclick=\"" + onclick + "\" style='color: white;'>" + text + "</a>");
+	return $("<a href=\"#\" onclick=\"" + onclick + "\" >" + text + "</a>");
 }
 

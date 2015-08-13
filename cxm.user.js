@@ -50,6 +50,10 @@ var css = hackForStringLiteral(function() {/*!
 	content: " :: ";
 }
 
+#cxm_grease .menu span:not(:last-child):after {
+	content: " :: ";
+}
+
 #cxm_grease .menu a, #cxm_grease .ticket h3 a, #cxm_grease .note h3 a {
 	color: white;
 }
@@ -77,27 +81,23 @@ function loadComplete(){
 }
 
 function createMenuDiv(){
-	var $menu = $('<div class="menu" />');
-	var $toggle = createButton("", "toggle cxm ui");
-	$toggle.click(function(){
-		$('.appLayout').toggle();
-	});
-	$menu.append($toggle);
-	$menu.append(" :: ");
-	$menu.append(createButton("refreshEntity()", "refresh"));
-
-	$menu.append(" :: ");
-	$addNote = createButton("", "add note");
-	$addNote.click(function(){
-		$("span[widgetid='ticketLineItemBtn']").find("input").click();
-	});
-	$menu.append($addNote);
-
-	$menu.append(" :: ");
-	$menu.append(createButton("alert('not implemented yet')", "assign"));
-	// simulate save button click, needed for assign feature
-	//$("span[widgetid='dijit_form_Button_1']").find("input").click();
-	$div.append($menu);
+	$div.append($("<div/>")
+		.addClass("menu")
+		.append($("<span/>").append($("<a/>")
+			.attr("href", "#").text("toggle cxm ui")
+			.click(function(){ $(".appLayout").toggle(); })))
+		.append($("<span/>").append($("<a/>")
+			.attr("href", "#").text("refresh")
+			.click(refreshEntity)))
+		.append($("<span/>").append($("<a/>")
+			.attr("href", "#").text("add note")
+			.click(function(){
+				$("span[widgetid='ticketLineItemBtn']").find("input").click();
+			})))
+		.append($("<span/>").append($("<a/>")
+			.attr("href", "#").text("assign")
+			.click(function(){ alert("not implemented yet"); })))
+		);
 }
 
 function createTicketDiv(id){

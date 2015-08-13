@@ -43,6 +43,13 @@ var css = hackForStringLiteral(function() {/*!
 	padding: 5px;
 }
 
+#cxm_grease .ticket h3 span:first-child {
+	display: block;
+}
+#cxm_grease .ticket h3 span:not(:first-child):not(:last-child):after {
+	content: " :: ";
+}
+
 #cxm_grease .menu a, #cxm_grease .ticket h3 a, #cxm_grease .note h3 a {
 	color: white;
 }
@@ -100,16 +107,19 @@ function createTicketDiv(id){
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
 
-	var $ticketDiv = $('<div class="ticket" />');
-	var $header = $('<h3/>');
-	$header.html(id + " " + title + "<br />" + recieved + " :: " + account + " " + site + " " + location);
-	var $iframeContent = $("#probDesc_iframe").contents().find("#dijitEditorBody").clone();
-	$iframeContent.css('padding', '10px');
-	$iframeContent.attr('contenteditable','false');
-
-	$ticketDiv.append($header);
-	$ticketDiv.append($iframeContent);
-	$div.append($ticketDiv);
+	$div.append($("<div />")
+		.addClass("ticket")
+		.append($("<h3/>")
+			.append($("<span/>").text(id + " " + title))
+			.append($("<span/>").text(recieved))
+			.append($("<span/>").text(account + " " + site + " " + location))
+		)
+		.append($("<p/>").append(
+			$("#probDesc_iframe").contents().find("#dijitEditorBody")
+			.attr('contenteditable','false')
+			.clone()
+		))
+	);
 }
 
 function createNoteDivs(){

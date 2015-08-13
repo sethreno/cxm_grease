@@ -54,6 +54,10 @@ var css = hackForStringLiteral(function() {/*!
 	content: " :: ";
 }
 
+#cxm_grease .note h3 span:not(:last-child):after {
+	content: " :: ";
+}
+
 #cxm_grease .menu a, #cxm_grease .ticket h3 a, #cxm_grease .note h3 a {
 	color: white;
 }
@@ -124,43 +128,44 @@ function createTicketDiv(id){
 
 function createNoteDivs(){
 	var notes = [];
-	$('.field-ttproblem').each(function(index) {
+	// gt(0) - the first element is a header row
+	$('.field-ttproblem:gt(0)').each(function(index) {
 		var note = { text: $(this).text() };
 		notes.push(note);
 	});
-	$('.field-ttresolution').each(function(index) {
+	$('.field-ttresolution:gt(0)').each(function(index) {
 		var note = notes[index];
 		if (note.text.length > 0 && $(this).text().length > 0){
 			note.text += "\n";
 		}
 		note.text += $(this).text();
 	});
-	$('.field-ttworkby').each(function(index) {
+	$('.field-ttworkby:gt(0)').each(function(index) {
 		notes[index].user = $(this).text();
 	});
-	$('.field-ttdate').each(function(index) {
+	$('.field-ttdate:gt(0)').each(function(index) {
 		notes[index].date = $(this).text();
 	});
-	$('.field-ttstart').each(function(index) {
+	$('.field-ttstart:gt(0)').each(function(index) {
 		notes[index].date += " " + $(this).text();
 	});
-	$('.field-ttid').each(function(index) {
+	$('.field-ttid:gt(0)').each(function(index) {
 		notes[index].id = $(this).text();
 	});
-	for(var i=1; i<notes.length; i++){
-		var $note = $('<div class="note" />');
-		var $header = $('<h3/>');
-		var $text = $('<p/>');
-		var edit = "<a href=\"#\" onclick=\"clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')\">edit</a>";
-		$header.html(notes[i].date + ' :: ' + notes[i].user + " :: " + edit);
-		$text.html(notes[i].text.replace(/\n/g, "<br />"));
-		$note.append($header);
-		$note.append($text);
-		$div.append($note);
+	for(var i=0; i<notes.length; i++){
+		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')";
+		$div.append($("<div/>")
+			.addClass("note")
+			.append($("<h3/>")
+				.append($("<span/>").text(notes[i].date))
+				.append($("<span/>").text(notes[i].user))
+				.append($("<span/>")
+					.append($('<a onclick="' + onclick + '"/>')
+						.attr("href","#").text("edit")
+					)))
+			.append($("<p/>")
+				.html(notes[i].text.replace(/\n/g, "<br />")))
+		);
 	}
-}
-
-function createButton(onclick, text){
-	return $("<a href=\"#\" onclick=\"" + onclick + "\" >" + text + "</a>");
 }
 

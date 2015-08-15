@@ -39,8 +39,12 @@ var css = hackForStringLiteral(function() {/*!
 	color: white;
 }
 
-#cxm_grease .ticket p, #cxm_grease .note p {
+#cxm_grease .ticket p, #cxm_grease .note p, #cxm_grease .ticket .attachments a {
 	padding: 5px;
+}
+
+#cxm_grease .ticket .attachments {
+	margin: 5px;
 }
 
 #cxm_grease .ticket h3 span:first-child {
@@ -111,6 +115,11 @@ function createTicketDiv(id){
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
 
+	// make attachments available
+	openSubmodule('attachments',true)
+	// switch back to main tab
+	//$("div[widgetid='tabsContainer_tablist_pageEntityticketpage1']").click();
+
 	$div.append($("<div />")
 		.addClass("ticket")
 		.append($("<h3/>")
@@ -118,6 +127,8 @@ function createTicketDiv(id){
 			.append($("<span/>").text(recieved))
 			.append($("<span/>").text(account + " " + site + " " + location))
 		)
+		.append($("<div/>").addClass("attachments")
+			.append($("td.field-attachmentName").find("a")))
 		.append($("<p/>").append(
 			$("#probDesc_iframe").contents().find("#dijitEditorBody")
 			.attr('contenteditable','false')

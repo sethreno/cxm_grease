@@ -115,10 +115,7 @@ function createTicketDiv(id){
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
 
-	// make attachments available
-	openSubmodule('attachments',true)
-	// switch back to main tab
-	//$("div[widgetid='tabsContainer_tablist_pageEntityticketpage1']").click();
+	openSubmodule('attachments',true); // make attachments available
 
 	$div.append($("<div />")
 		.addClass("ticket")
@@ -135,6 +132,8 @@ function createTicketDiv(id){
 			.clone()
 		))
 	);
+
+	$(".btnCloseAttachment").find("input").click(); // back to default tab
 }
 
 function createNoteDivs(){

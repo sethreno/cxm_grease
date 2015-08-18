@@ -6,6 +6,7 @@
 // @description Make CXM UI bearable.
 // @version     2
 // @grant       none
+// @require     https://cdn.rawgit.com/showdownjs/showdown/1.2.2/dist/showdown.min.js
 // ==/UserScript==
 
 function hackForStringLiteral(f) {
@@ -70,6 +71,7 @@ $('<style type="text/css">' + css + '</style>').appendTo('head');
 
 var timer = setInterval(loadComplete, 100);
 var $div = $('<div id="cxm_grease" />').prependTo('body');
+
 
 function loadComplete(){
 	if ($('#loadingOverlay').is(':visible')) return; // sill loading
@@ -162,6 +164,8 @@ function createNoteDivs(){
 	$('.field-ttid:gt(0)').each(function(index) {
 		notes[index].id = $(this).text();
 	});
+
+	var converter = new showdown.Converter();
 	for(var i=0; i<notes.length; i++){
 		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')";
 		$div.append($("<div/>")
@@ -174,7 +178,7 @@ function createNoteDivs(){
 						.attr("href","#").text("edit")
 					)))
 			.append($("<p/>")
-				.html(notes[i].text.replace(/\n/g, "<br />")))
+				.html(converter.makeHtml(notes[i].text)))
 		);
 	}
 }

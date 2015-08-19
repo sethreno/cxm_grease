@@ -165,7 +165,6 @@ function createNoteDivs(){
 		notes[index].id = $(this).text();
 	});
 
-	var converter = new showdown.Converter();
 	for(var i=0; i<notes.length; i++){
 		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')";
 		$div.append($("<div/>")
@@ -178,7 +177,7 @@ function createNoteDivs(){
 						.attr("href","#").text("edit")
 					)))
 			.append($("<p/>")
-				.html(converter.makeHtml(notes[i].text)))
+				.html(notes[i].text.replace(/\n/g, "<br />")))
 		);
 	}
 }

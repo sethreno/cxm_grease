@@ -38,7 +38,7 @@ var css = hackForStringLiteral(function() {/*!
 	border: 1px solid;
 }
 
-#cxm_grease .ticket h3, #cxm_grease .note h3 {
+#cxm_grease .ticket > h3, #cxm_grease .note > h3 {
 	padding: 5px;
 	background-color: #2e4272;
 	color: white;
@@ -69,6 +69,32 @@ var css = hackForStringLiteral(function() {/*!
 
 #cxm_grease .menu a, #cxm_grease .ticket h3 a, #cxm_grease .note h3 a {
 	color: white;
+}
+
+
+#cxm_grease .note p h1 { font-size: 200%; }
+#cxm_grease .note p h2 { font-size: 175%; }
+#cxm_grease .note p h3 { font-size: 150%; }
+#cxm_grease .note p h4 { font-size: 125%; }
+#cxm_grease .note p h5 { font-size: 100%; }
+
+#cxm_grease .note p em { font-style: italic; }
+#cxm_grease .note p strong { font-weight: bold; }
+#cxm_grease .note p ul li {
+    list-style-type: disc;
+}
+
+#cxm_grease .note p ol li {
+    list-style-type: decimal;
+}
+
+#cxm_grease .note p blockquote {
+    margin-bottom: 18px;
+    border-left: 5px solid #EEE;
+    padding-left: 15px;
+}
+#cxm_grease .note p img {
+    display: inline-block;
 }
 */});
 
@@ -171,7 +197,9 @@ function createNoteDivs(){
 	});
 
 	for(var i=0; i<notes.length; i++){
-		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')";
+		var text = notes[i].text;
+		text = text.replace(/\n/g, "  \n");
+		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'edit')";
 		$div.append($("<div/>")
 			.addClass("note")
 			.append($("<h3/>")
@@ -182,7 +210,7 @@ function createNoteDivs(){
 						.attr("href","#").text("edit")
 					)))
 			.append($("<p/>")
-				.html(showdownConverter.makeHtml(notes[i].text.replace(/\n/g, "  \n"))))
+				.html(showdownConverter.makeHtml(text)))
 		);
 	}
 

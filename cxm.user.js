@@ -11,6 +11,7 @@
 // @run-at      document-start
 // ==/UserScript==
 
+// this has to run before cxm scripts run
 var showdownConverter = new showdown.Converter();
 
 function hackForStringLiteral(f) {
@@ -98,27 +99,27 @@ var css = hackForStringLiteral(function() {/*!
 }
 */});
 
-var timer = setInterval(loadComplete, 100);
 var $div = [];
 
-function loadComplete(){
-	if ($('#loadingOverlay').is(':visible')) return; // sill loading
-	clearInterval(timer);
-	$('<style type="text/css">' + css + '</style>').appendTo('head');
-	$('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/zenburn.min.css">').appendTo('head');
-	$div = $('<div id="cxm_grease" />').prependTo('body');
+document.onreadystatechange = function () {
+	var state = document.readyState
+	console.log("ready state: " + state);
+	if (state == 'complete') {
+		var id = $("#ticketID").val();
+		if (id === undefined){
+			console.log("couldn't find ticket id, aborting");
+			$('.appLayout').show();
+			return;
+		}
+		$('<style type="text/css">' + css + '</style>').appendTo('head');
+		$('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/zenburn.min.css">').appendTo('head');
+		$div = $('<div id="cxm_grease" />').prependTo('body');
+		$('.appLayout').hide();
 
-	var id = $("#ticketID").val();
-	if (id === undefined){
-		console.log("couldn't find ticket id, aborting");
-		$('.appLayout').show();
-		return;
+		createMenuDiv();
+		createTicketDiv(id);
+		createNoteDivs();
 	}
-	$('.appLayout').hide();
-
-	createMenuDiv();
-	createTicketDiv(id);
-	createNoteDivs();
 }
 
 function createMenuDiv(){

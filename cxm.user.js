@@ -4,6 +4,7 @@
 // @include     http://cxm.rosnet.com:8080/CXM/*
 // @include     http://192.168.0.68:8080/CXM/*
 // @description Make CXM UI bearable.
+// @updateURL   https://github.com/sethreno/cxm_grease/raw/master/cxm.user.js
 // @version     2
 // @grant       none
 // @require     https://cdn.rawgit.com/showdownjs/showdown/1.2.2/dist/showdown.min.js

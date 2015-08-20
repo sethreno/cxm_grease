@@ -79,7 +79,7 @@ function loadComplete(){
 	if ($('#loadingOverlay').is(':visible')) return; // sill loading
 	clearInterval(timer);
 	$('<style type="text/css">' + css + '</style>').appendTo('head');
-	$('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/default.min.css">').appendTo('head');
+	$('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/zenburn.min.css">').appendTo('head');
 	$div = $('<div id="cxm_grease" />').prependTo('body');
 
 	var id = $("#ticketID").val();

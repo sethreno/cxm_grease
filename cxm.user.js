@@ -7,7 +7,11 @@
 // @version     2
 // @grant       none
 // @require     https://cdn.rawgit.com/showdownjs/showdown/1.2.2/dist/showdown.min.js
+// @require     https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js
+// @run-at      document-start
 // ==/UserScript==
+
+var showdownConverter = new showdown.Converter();
 
 function hackForStringLiteral(f) {
   return f.toString().
@@ -18,7 +22,7 @@ function hackForStringLiteral(f) {
 var css = hackForStringLiteral(function() {/*!
 #cxm_grease {
 	padding: 10px;
-	font-family: consolas;
+	font-family: Helvetica;
 	font-size: 140%;
 }
 
@@ -67,15 +71,16 @@ var css = hackForStringLiteral(function() {/*!
 	color: white;
 }
 */});
-$('<style type="text/css">' + css + '</style>').appendTo('head');
 
 var timer = setInterval(loadComplete, 100);
-var $div = $('<div id="cxm_grease" />').prependTo('body');
-
+var $div = [];
 
 function loadComplete(){
 	if ($('#loadingOverlay').is(':visible')) return; // sill loading
 	clearInterval(timer);
+	$('<style type="text/css">' + css + '</style>').appendTo('head');
+	$('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/default.min.css">').appendTo('head');
+	$div = $('<div id="cxm_grease" />').prependTo('body');
 
 	var id = $("#ticketID").val();
 	if (id === undefined){
@@ -177,8 +182,12 @@ function createNoteDivs(){
 						.attr("href","#").text("edit")
 					)))
 			.append($("<p/>")
-				.html(notes[i].text.replace(/\n/g, "<br />")))
+				.html(showdownConverter.makeHtml(notes[i].text.replace(/\n/g, "  \n"))))
 		);
 	}
+
+	$('pre code').each(function(i, block) {
+		hljs.highlightBlock(block);
+	});
 }
 

@@ -163,8 +163,9 @@ function createTicketDiv(id){
 			.append($("td.field-attachmentName").find("a")))
 		.append($("<p/>").append(
 			$("#probDesc_iframe").contents().find("#dijitEditorBody")
-			.attr('contenteditable','false')
 			.clone()
+			.attr('contenteditable','false')
+			.attr('id', 'dijitEditorBodyClone')
 		))
 	);
 

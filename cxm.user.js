@@ -106,6 +106,9 @@ document.onreadystatechange = function () {
 	var state = document.readyState
 	console.log("ready state: " + state);
 	if (state == 'complete') {
+
+		supportTicketLink();
+
 		var id = $("#ticketID").val();
 		if (id === undefined){
 			console.log("couldn't find ticket id, aborting");
@@ -120,6 +123,16 @@ document.onreadystatechange = function () {
 		createMenuDiv();
 		createTicketDiv(id);
 		createNoteDivs();
+	}
+}
+
+function supportTicketLink(){
+	if (window.location.hash){
+		//support links to tickets
+		//http://192.168.0.68:8080/CXM/entity/viewAllEntityDetails?moduleUname=AgentTicketMgr#ticket=19162
+		if (window.location.hash.indexOf("#ticket=") == 0){
+			clickEditFormTicketMgrResultsGrid1(window.location.hash.split("=")[1],'edit');
+		}
 	}
 }
 

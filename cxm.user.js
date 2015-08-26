@@ -5,7 +5,7 @@
 // @include     http://192.168.0.68:8080/CXM/*
 // @description Make CXM UI bearable.
 // @updateURL   https://github.com/sethreno/cxm_grease/raw/master/cxm.user.js
-// @version     3
+// @version     4
 // @grant       none
 // @require     https://cdn.rawgit.com/showdownjs/showdown/1.2.2/dist/showdown.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js

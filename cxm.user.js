@@ -9,6 +9,7 @@
 // @grant       none
 // @require     https://cdn.rawgit.com/showdownjs/showdown/1.2.2/dist/showdown.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js
+// @require     https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
 // @run-at      document-start
 // ==/UserScript==
 
@@ -108,27 +109,33 @@ document.onreadystatechange = function () {
 	if (state == 'interactive') {
 		supportTicketLink();
 	}
-	if (state == 'complete') {
-		var id = $("#ticketID").val();
-		if (id === undefined){
-			console.log("couldn't find ticket id, aborting");
-			$('.appLayout').show();
-			return;
-		}
-		$('<style type="text/css">' + css + '</style>').appendTo('head');
-		$('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/zenburn.min.css">').appendTo('head');
-		$div = $('<div id="cxm_grease" />').prependTo('body');
-		$('.appLayout').hide();
-
-		createMenuDiv();
-		createTicketDiv(id);
-		createNoteDivs();
-
-		// show ticket url
-		var url = "http://" + window.location.hostname + ":8080/CXM/entity/#ticket=" + id;
-		window.history.pushState("", "", url);
-	}
 }
+
+function loadComplete() {
+    if ($('#loadingOverlay').is(':visible') || $("#ticketID").val() === undefined) return; // sill loading
+    clearInterval(timer);
+
+    var id = $("#ticketID").val();
+    if (id === undefined) {
+        console.log("couldn't find ticket id, aborting");
+        $('.appLayout').show();
+        return;
+    }
+    $('<style type="text/css">' + css + '</style>').appendTo('head');
+    $('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/zenburn.min.css">').appendTo('head');
+    $div = $('<div id="cxm_grease" />').prependTo('body');
+    $('.appLayout').hide();
+
+    createMenuDiv();
+    createTicketDiv(id);
+    createNoteDivs();
+
+    // show ticket url
+    var url = "http://" + window.location.hostname + ":8080/CXM#ticket=" + id;
+    window.history.pushState("", "", url);
+}
+
+var timer = setInterval(loadComplete, 100);
 
 function supportTicketLink(){
 	//http://192.168.0.68:8080/CXM/entity/#ticket=15-19162

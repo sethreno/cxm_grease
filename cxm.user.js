@@ -125,14 +125,14 @@ document.onreadystatechange = function () {
 		createNoteDivs();
 
 		// show ticket url
-		var url = "http://" + window.location.hostname + ":8080/CXM#ticket=" + id;
+		var url = "http://" + window.location.hostname + ":8080/CXM/entity/#ticket=" + id;
 		window.history.pushState("", "", url);
 	}
 }
 
 function supportTicketLink(){
-	//http://192.168.0.68:8080/CXM#ticket=15-19162
-	//http://cxm.rosnet.com:8080/CXM#ticket=19162
+	//http://192.168.0.68:8080/CXM/entity/#ticket=15-19162
+	//http://cxm.rosnet.com:8080/CXM/entity/#ticket=19162
 	if (!window.location.hash) return;
 	if (window.location.hash.indexOf("#ticket=") != 0) return;
 

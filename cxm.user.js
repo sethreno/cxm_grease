@@ -105,10 +105,10 @@ var $div = [];
 document.onreadystatechange = function () {
 	var state = document.readyState
 	console.log("ready state: " + state);
-	if (state == 'complete') {
-
+	if (state == 'interactive') {
 		supportTicketLink();
-
+	}
+	if (state == 'complete') {
 		var id = $("#ticketID").val();
 		if (id === undefined){
 			console.log("couldn't find ticket id, aborting");
@@ -120,6 +120,9 @@ document.onreadystatechange = function () {
 		$div = $('<div id="cxm_grease" />').prependTo('body');
 		$('.appLayout').hide();
 
+		// show ticket url
+		window.history.pushState("","","http://cxm.rosnet.com:8080/CXM#ticket=" + id);
+
 		createMenuDiv();
 		createTicketDiv(id);
 		createNoteDivs();
@@ -127,13 +130,33 @@ document.onreadystatechange = function () {
 }
 
 function supportTicketLink(){
-	if (window.location.hash){
-		//support links to tickets
-		//http://192.168.0.68:8080/CXM/entity/viewAllEntityDetails?moduleUname=AgentTicketMgr#ticket=19162
-		if (window.location.hash.indexOf("#ticket=") == 0){
-			clickEditFormTicketMgrResultsGrid1(window.location.hash.split("=")[1],'edit');
-		}
+	//http://cxm.rosnet.com:8080/CXM#ticket=19162
+	if (!window.location.hash) return;
+	if (window.location.hash.indexOf("#ticket=") != 0) return;
+
+	console.log("handling ticket link");
+	var id = window.location.hash.split("=")[1];
+	if (id.indexOf("-") != -1){
+		id = id.split("-")[1];
 	}
+
+	$("<form/>")
+		.attr("action", "/CXM/entity/getEntityDetails")
+		.attr("method", "POST")
+		.append($("<input/>").attr("type", "hidden").attr("name", "moduleUname").attr("value", "Ticket"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "forView").attr("value", "false"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "isChild").attr("value", "false"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "referenceModUname").attr("value", "AgentTicketMgr"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "entityInstanceDisplayText").attr("value", "Agent Ticket Manager(Agent Ticket Manager ())"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "extendeFromModuleInstanceId").attr("value", "0"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "extendedFromModuleUName").attr("value", ""))
+		.append($("<input/>").attr("type", "hidden").attr("name", "parentInstanceId").attr("value", "0"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "parentModName").attr("value", ""))
+		.append($("<input/>").attr("type", "hidden").attr("name", "refreshGridFunctionName").attr("value", "refreshGridTicketMgrResultsGrid1"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "gridFieldUname").attr("value", "TicketMgrResultsGrid1"))
+		.append($("<input/>").attr("type", "hidden").attr("name", "entityId").attr("value", id))
+		.appendTo($(document.body))
+		.submit();
 }
 
 function createMenuDiv(){

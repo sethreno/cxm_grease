@@ -24,16 +24,18 @@ function hackForStringLiteral(f) {
 
 var css = hackForStringLiteral(function() {/*!
 #cxm_grease {
-	padding: 10px;
 	font-family: Helvetica;
 	font-size: 140%;
+    padding-top: 40px;
 }
 
 #cxm_grease .menu {
 	padding: 5px;
-	margin: 10px;
-	background-color: #2e4272;
+	background-color: #A03030;
 	color: white;
+    position: fixed;
+    top: 10px;
+    left: 10px;
 }
 
 #cxm_grease .ticket, #cxm_grease .note {

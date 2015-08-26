@@ -131,7 +131,7 @@ function loadComplete() {
     createNoteDivs();
 
     // show ticket url
-    var url = "http://" + window.location.hostname + ":8080/CXM#ticket=" + id;
+    var url = "http://" + window.location.hostname + ":8080/CXM/entity/#ticket=" + id;
     window.history.pushState("", "", url);
 }
 

@@ -17,9 +17,9 @@
 var showdownConverter = new showdown.Converter();
 
 function hackForStringLiteral(f) {
-  return f.toString().
-      replace(/^[^\/]+\/\*!?/, '').
-      replace(/\*\/[^\/]+$/, '');
+	return f.toString().
+		replace(/^[^\/]+\/\*!?/, '').
+		replace(/\*\/[^\/]+$/, '');
 }
 
 var css = hackForStringLiteral(function() {/*!

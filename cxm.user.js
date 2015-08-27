@@ -36,6 +36,7 @@ var css = hackForStringLiteral(function() {/*!
     position: fixed;
     top: 10px;
     left: 10px;
+	right: 10px;
 }
 
 #cxm_grease .ticket, #cxm_grease .note {

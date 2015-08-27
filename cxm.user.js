@@ -17,9 +17,9 @@
 var showdownConverter = new showdown.Converter();
 
 function hackForStringLiteral(f) {
-  return f.toString().
-      replace(/^[^\/]+\/\*!?/, '').
-      replace(/\*\/[^\/]+$/, '');
+	return f.toString().
+		replace(/^[^\/]+\/\*!?/, '').
+		replace(/\*\/[^\/]+$/, '');
 }
 
 var css = hackForStringLiteral(function() {/*!
@@ -133,7 +133,7 @@ function loadComplete() {
     createNoteDivs();
 
     // show ticket url
-    var url = "http://" + window.location.hostname + ":8080/CXM#ticket=" + id;
+    var url = "http://" + window.location.hostname + ":8080/CXM/entity/#ticket=" + id;
     window.history.pushState("", "", url);
 }
 

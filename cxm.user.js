@@ -242,7 +242,7 @@ function createNoteDivs(){
 	for(var i=0; i<notes.length; i++){
 		var text = notes[i].text;
 		text = text.replace(/\n/g, "  \n");
-		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'edit')";
+		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')";
 		$div.append($("<div/>")
 			.addClass("note")
 			.append($("<h3/>")
@@ -250,7 +250,7 @@ function createNoteDivs(){
 				.append($("<span/>").text(notes[i].user))
 				.append($("<span/>")
 					.append($('<a onclick="' + onclick + '"/>')
-						.attr("href","#").text("edit")
+						.attr("href","#").text("view")
 					)))
 			.append($("<p/>")
 				.html(showdownConverter.makeHtml(text)))

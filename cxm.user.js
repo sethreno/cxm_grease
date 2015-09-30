@@ -22,7 +22,7 @@ function hackForStringLiteral(f) {
 		replace(/\*\/[^\/]+$/, '');
 }
 
-var css = hackForStringLiteral(function() {/*!
+var css = hackForStringLiteral(function () {/*!
 #cxm_grease {
 	font-family: Helvetica;
 	font-size: 140%;
@@ -33,9 +33,9 @@ var css = hackForStringLiteral(function() {/*!
 	padding: 5px;
 	background-color: #A03030;
 	color: white;
-    position: fixed;
-    top: 10px;
-    left: 10px;
+	position: fixed;
+	top: 10px;
+	left: 10px;
 	right: 10px;
 }
 
@@ -94,20 +94,20 @@ var css = hackForStringLiteral(function() {/*!
 #cxm_grease .note p em { font-style: italic; }
 #cxm_grease .note p strong { font-weight: bold; }
 #cxm_grease .note p ul li {
-    list-style-type: disc;
+	list-style-type: disc;
 }
 
 #cxm_grease .note p ol li {
-    list-style-type: decimal;
+	list-style-type: decimal;
 }
 
 #cxm_grease .note p blockquote {
-    margin-bottom: 18px;
-    border-left: 5px solid #EEE;
-    padding-left: 15px;
+	margin-bottom: 18px;
+	border-left: 5px solid #EEE;
+	padding-left: 15px;
 }
 #cxm_grease .note p img {
-    display: inline-block;
+	display: inline-block;
 }
 */});
 
@@ -122,32 +122,32 @@ document.onreadystatechange = function () {
 }
 
 function loadComplete() {
-    if ($('#loadingOverlay').is(':visible') || $("#ticketID").val() === undefined) return; // sill loading
-    clearInterval(timer);
+	if ($('#loadingOverlay').is(':visible') || $("#ticketID").val() === undefined) return; // sill loading
+	clearInterval(timer);
 
-    var id = $("#ticketID").val();
-    if (id === undefined) {
-        console.log("couldn't find ticket id, aborting");
-        $('.appLayout').show();
-        return;
-    }
-    $('<style type="text/css">' + css + '</style>').appendTo('head');
-    $('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/zenburn.min.css">').appendTo('head');
-    $div = $('<div id="cxm_grease" />').prependTo('body');
-    $('.appLayout').hide();
+	var id = $("#ticketID").val();
+	if (id === undefined) {
+		console.log("couldn't find ticket id, aborting");
+		$('.appLayout').show();
+		return;
+	}
+	$('<style type="text/css">' + css + '</style>').appendTo('head');
+	$('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/zenburn.min.css">').appendTo('head');
+	$div = $('<div id="cxm_grease" />').prependTo('body');
+	$('.appLayout').hide();
 
-    createMenuDiv();
-    createTicketDiv(id);
-    createNoteDivs();
+	createMenuDiv();
+	createTicketDiv(id);
+	createNoteDivs();
 
-    // show ticket url
-    var url = "http://" + window.location.hostname + ":8080/CXM/entity/#ticket=" + id;
-    window.history.pushState("", "", url);
+	// show ticket url
+	var url = "http://" + window.location.hostname + ":8080/CXM/entity/#ticket=" + id;
+	window.history.pushState("", "", url);
 }
 
 var timer = setInterval(loadComplete, 100);
 
-function supportTicketLink(){
+function supportTicketLink() {
 	//http://192.168.0.68:8080/CXM/entity/#ticket=15-19162
 	//http://cxm.rosnet.com:8080/CXM/entity/#ticket=19162
 	if (!window.location.hash) return;
@@ -155,7 +155,7 @@ function supportTicketLink(){
 
 	console.log("handling ticket link");
 	var id = window.location.hash.split("=")[1];
-	if (id.indexOf("-") != -1){
+	if (id.indexOf("-") != -1) {
 		id = id.split("-")[1];
 	}
 
@@ -173,39 +173,39 @@ function supportTicketLink(){
 		.submit();
 }
 
-function createMenuDiv(){
+function createMenuDiv() {
 	$div.append($("<div/>")
 		.addClass("menu")
 		.append($("<span/>").append($("<a/>")
 			.attr("href", "#").text("toggle cxm ui")
-			.click(function(){ $(".appLayout").toggle(); })))
+			.click(function () { $(".appLayout").toggle(); })))
 		.append($("<span/>").append($("<a/>")
 			.attr("href", "#").text("refresh")
 			.click(refreshEntity)))
 		.append($("<span/>").append($("<a/>")
 			.attr("href", "#").text("add note")
-			.click(function(){
+			.click(function () {
 				$("span[widgetid='ticketLineItemBtn']").find("input").click();
 			})))
 		.append($("<span/>").append($("<a/>")
 			.attr("href", "#").text("assign")
-			.click(function(){ alert("not implemented yet"); })))
+			.click(function () { alert("not implemented yet"); })))
 		);
 }
 
-function createTicketDiv(id){
+function createTicketDiv(id) {
 	var title = $("#ticketTitle").val();
 	var recieved = $("#recdDate").val() + ' ' + $("#recdTime").val();
 	var account = $("#skipaccount").val();
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
-    var assignee = $('#assignedTo').val();
+	var assignee = $('#assignedTo').val();
 
-	openSubmodule('attachments',true); // make attachments available
+	openSubmodule('attachments', true); // make attachments available
 
 	$div.append($("<div />")
 		.addClass("ticket")
-        .append($("<div class='assignee' />").text( " Assigned: " + assignee))
+		.append($("<div class='assignee' />").text(" Assigned: " + assignee))
 		.append($("<h3/>")
 			.append($("<span/>").text(id + " " + title))
 			.append($("<span/>").text(recieved))
@@ -216,7 +216,7 @@ function createTicketDiv(id){
 		.append($("<p/>").append(
 			$("#probDesc_iframe").contents().find("#dijitEditorBody")
 			.clone()
-			.attr('contenteditable','false')
+			.attr('contenteditable', 'false')
 			.attr('id', 'dijitEditorBodyClone')
 		))
 	);
@@ -224,34 +224,34 @@ function createTicketDiv(id){
 	$(".btnCloseAttachment").find("input").click(); // back to default tab
 }
 
-function createNoteDivs(){
+function createNoteDivs() {
 	var notes = [];
 	// gt(0) - the first element is a header row
-	$('.field-ttproblem:gt(0)').each(function(index) {
+	$('.field-ttproblem:gt(0)').each(function (index) {
 		var note = { text: $(this).text() };
 		notes.push(note);
 	});
-	$('.field-ttresolution:gt(0)').each(function(index) {
+	$('.field-ttresolution:gt(0)').each(function (index) {
 		var note = notes[index];
-		if (note.text.length > 0 && $(this).text().length > 0){
+		if (note.text.length > 0 && $(this).text().length > 0) {
 			note.text += "\n";
 		}
 		note.text += $(this).text();
 	});
-	$('.field-ttworkby:gt(0)').each(function(index) {
+	$('.field-ttworkby:gt(0)').each(function (index) {
 		notes[index].user = $(this).text();
 	});
-	$('.field-ttdate:gt(0)').each(function(index) {
+	$('.field-ttdate:gt(0)').each(function (index) {
 		notes[index].date = $(this).text();
 	});
-	$('.field-ttstart:gt(0)').each(function(index) {
+	$('.field-ttstart:gt(0)').each(function (index) {
 		notes[index].date += " " + $(this).text();
 	});
-	$('.field-ttid:gt(0)').each(function(index) {
+	$('.field-ttid:gt(0)').each(function (index) {
 		notes[index].id = $(this).text();
 	});
 
-	for(var i=0; i<notes.length; i++){
+	for (var i = 0; i < notes.length; i++) {
 		var text = notes[i].text;
 		text = text.replace(/\n/g, "  \n");
 		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')";
@@ -262,14 +262,14 @@ function createNoteDivs(){
 				.append($("<span/>").text(notes[i].user))
 				.append($("<span/>")
 					.append($('<a onclick="' + onclick + '"/>')
-						.attr("href","#").text("view")
+						.attr("href", "#").text("view")
 					)))
 			.append($("<p/>")
 				.html(showdownConverter.makeHtml(text)))
 		);
 	}
 
-	$('pre code').each(function(i, block) {
+	$('pre code').each(function (i, block) {
 		hljs.highlightBlock(block);
 	});
 }

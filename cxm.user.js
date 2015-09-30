@@ -50,6 +50,13 @@ var css = hackForStringLiteral(function() {/*!
 	color: white;
 }
 
+#cxm_grease .ticket > div.assignee {
+	float:right;
+	display: inline-block; 
+	padding:5px;
+	color: white;
+}
+
 #cxm_grease .ticket p, #cxm_grease .note p, #cxm_grease .ticket .attachments a {
 	padding: 5px;
 }
@@ -192,11 +199,13 @@ function createTicketDiv(id){
 	var account = $("#skipaccount").val();
 	var site = $("#skipsite").val();
 	var location = $("#skiplocation").val();
+    var assignee = $('#assignedTo').val();
 
 	openSubmodule('attachments',true); // make attachments available
 
 	$div.append($("<div />")
 		.addClass("ticket")
+        .append($("<div class='assignee' />").text( " Assigned: " + assignee))
 		.append($("<h3/>")
 			.append($("<span/>").text(id + " " + title))
 			.append($("<span/>").text(recieved))

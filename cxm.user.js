@@ -17,23 +17,26 @@
 var showdownConverter = new showdown.Converter();
 
 function hackForStringLiteral(f) {
-  return f.toString().
-      replace(/^[^\/]+\/\*!?/, '').
-      replace(/\*\/[^\/]+$/, '');
+	return f.toString().
+		replace(/^[^\/]+\/\*!?/, '').
+		replace(/\*\/[^\/]+$/, '');
 }
 
 var css = hackForStringLiteral(function() {/*!
 #cxm_grease {
-	padding: 10px;
 	font-family: Helvetica;
 	font-size: 140%;
+    padding-top: 40px;
 }
 
 #cxm_grease .menu {
 	padding: 5px;
-	margin: 10px;
-	background-color: #2e4272;
+	background-color: #A03030;
 	color: white;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+	right: 10px;
 }
 
 #cxm_grease .ticket, #cxm_grease .note {
@@ -131,7 +134,7 @@ function loadComplete() {
     createNoteDivs();
 
     // show ticket url
-    var url = "http://" + window.location.hostname + ":8080/CXM#ticket=" + id;
+    var url = "http://" + window.location.hostname + ":8080/CXM/entity/#ticket=" + id;
     window.history.pushState("", "", url);
 }
 
@@ -242,7 +245,7 @@ function createNoteDivs(){
 	for(var i=0; i<notes.length; i++){
 		var text = notes[i].text;
 		text = text.replace(/\n/g, "  \n");
-		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'edit')";
+		var onclick = "clickEditFormtroubleViewGrid(" + notes[i].id + ",'view')";
 		$div.append($("<div/>")
 			.addClass("note")
 			.append($("<h3/>")
@@ -250,7 +253,7 @@ function createNoteDivs(){
 				.append($("<span/>").text(notes[i].user))
 				.append($("<span/>")
 					.append($('<a onclick="' + onclick + '"/>')
-						.attr("href","#").text("edit")
+						.attr("href","#").text("view")
 					)))
 			.append($("<p/>")
 				.html(showdownConverter.makeHtml(text)))

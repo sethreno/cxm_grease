@@ -150,27 +150,48 @@ var timer = setInterval(loadComplete, 100);
 function supportTicketLink() {
 	//http://192.168.0.68:8080/CXM/entity/#ticket=15-19162
 	//http://cxm.rosnet.com:8080/CXM/entity/#ticket=19162
-	if (!window.location.hash) return;
-	if (window.location.hash.indexOf("#ticket=") != 0) return;
+	if (window.location.hash.indexOf("#ticket=") != 0 && sessionStorage.getItem("redirectLink") === null) return;
 
-	console.log("handling ticket link");
-	var id = window.location.hash.split("=")[1];
-	if (id.indexOf("-") != -1) {
-		id = id.split("-")[1];
+	function gotoTicket(hashValue) {
+		var id = hashValue.split("=")[1];
+		if (id.indexOf("-") != -1) {
+			id = id.split("-")[1];
+		}
+		$("<form/>")
+        .attr("action", "/CXM/entity/getEntityDetails")
+        .attr("method", "POST")
+        .append($("<input/>").attr("type", "hidden").attr("name", "entityId").attr("value", id))
+        .append($("<input/>").attr("type", "hidden").attr("name", "moduleUname").attr("value", "Ticket"))
+        .append($("<input/>").attr("type", "hidden").attr("name", "forView").attr("value", "false"))
+        .append($("<input/>").attr("type", "hidden").attr("name", "parentModName").attr("value", ""))
+        .append($("<input/>").attr("type", "hidden").attr("name", "parentInstanceId").attr("value", "0"))
+        .append($("<input/>").attr("type", "hidden").attr("name", "extendedFromModuleUName").attr("value", ""))
+        .append($("<input/>").attr("type", "hidden").attr("name", "extendeFromModuleInstanceId").attr("value", "0"))
+        .appendTo($(document.body))
+        .submit();
 	}
 
-	$("<form/>")
-		.attr("action", "/CXM/entity/getEntityDetails")
-		.attr("method", "POST")
-		.append($("<input/>").attr("type", "hidden").attr("name", "entityId").attr("value", id))
-		.append($("<input/>").attr("type", "hidden").attr("name", "moduleUname").attr("value", "Ticket"))
-		.append($("<input/>").attr("type", "hidden").attr("name", "forView").attr("value", "false"))
-		.append($("<input/>").attr("type", "hidden").attr("name", "parentModName").attr("value", ""))
-		.append($("<input/>").attr("type", "hidden").attr("name", "parentInstanceId").attr("value", "0"))
-		.append($("<input/>").attr("type", "hidden").attr("name", "extendedFromModuleUName").attr("value", ""))
-		.append($("<input/>").attr("type", "hidden").attr("name", "extendeFromModuleInstanceId").attr("value", "0"))
-		.appendTo($(document.body))
-		.submit();
+	//if we are no longer on the login screen and need to redirect
+	if (window.location.toString().indexOf("login") < 0 && sessionStorage.getItem("redirectLink") !== null) {
+		var h = sessionStorage.getItem("redirectLink");
+		sessionStorage.removeItem("redirectLink", null);
+		console.log("removeItem redirectLink", sessionStorage.getItem("redirectLink"));
+		gotoTicket(h);
+		return;
+	}
+
+	if (!window.location.hash) return;
+
+	console.log("handling ticket link", window.location.hash);
+
+	//if not on the ticket window... store the redirect hash
+	if (window.location.toString().indexOf("entity") < 0) {
+		console.log("setItem redirectLink", window.location.hash);
+		sessionStorage.setItem("redirectLink", window.location.hash);
+		return;
+	}
+
+	gotoTicket(window.location.hash);
 }
 
 function createMenuDiv() {
